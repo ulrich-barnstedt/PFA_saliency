@@ -5,14 +5,17 @@ from bilinear_upsampling import BilinearUpsampling
 
 class BatchNorm(BatchNormalization):
     def call(self, inputs, training=None):
-          return super(self.__class__, self).call(inputs, training=True)
+        return super(self.__class__, self).call(inputs, training=True)
+
 
 class Copy(Layer):
     def call(self, inputs, **kwargs):
         copy = tf.identity(inputs)
         return copy
+
     def compute_output_shape(self, input_shape):
         return input_shape
+
 
 class layertile(Layer):
     def call(self, inputs, **kwargs):
@@ -26,10 +29,11 @@ class layertile(Layer):
         return tuple(output_shape)
 
 
-def BN(input_tensor,block_id):
-    bn = BatchNorm(name=block_id+'_BN')(input_tensor)
-    a = Activation('relu',name=block_id+'_relu')(bn)
+def BN(input_tensor, block_id):
+    bn = BatchNorm(name=block_id + '_BN')(input_tensor)
+    a = Activation('relu', name=block_id + '_relu')(bn)
     return a
+
 
 def AtrousBlock(input_tensor, filters, rate, block_id, stride=1):
     x = Conv2D(filters, (3, 3), strides=(stride, stride), dilation_rate=(rate, rate),
@@ -105,7 +109,7 @@ def VGG16(img_input, dropout=False, with_CPFE=False, with_CA=False, with_SA=Fals
         if with_CA:
             C345 = ChannelWiseAttention(C345, name='C345_ChannelWiseAttention_withcpfe')
     C345 = Conv2D(64, (1, 1), padding='same', name='C345_conv')(C345)
-    C345 = BN(C345,'C345')
+    C345 = BN(C345, 'C345')
     C345 = BilinearUpsampling(upsampling=(4, 4), name='C345_up4')(C345)
 
     if with_SA:
@@ -115,9 +119,8 @@ def VGG16(img_input, dropout=False, with_CPFE=False, with_CA=False, with_SA=Fals
         C12 = Conv2D(64, (3, 3), padding='same', name='C12_conv')(C12)
         C12 = BN(C12, 'C12')
         C12 = Multiply(name='C12_atten_mutiply')([SA, C12])
-    fea = Concatenate(name='fuse_concat',axis=-1)([C12, C345])
+    fea = Concatenate(name='fuse_concat', axis=-1)([C12, C345])
     sa = Conv2D(1, (3, 3), padding='same', name='sa')(fea)
 
     model = Model(inputs=img_input, outputs=sa, name="BaseModel")
     return model
-
