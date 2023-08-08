@@ -103,18 +103,18 @@ def VGG16(img_input, dropout=False, with_CPFE=False, with_CA=False, with_SA=Fals
         C3_cfe = CFE(C3, 32, 'C3_cfe')
         C4_cfe = CFE(C4, 32, 'C4_cfe')
         C5_cfe = CFE(C5, 32, 'C5_cfe')
-        C5_cfe = BilinearUpsampling(upsampling=(4, 4), name='C5_cfe_up4')(C5_cfe)
-        C4_cfe = BilinearUpsampling(upsampling=(2, 2), name='C4_cfe_up2')(C4_cfe)
+        C5_cfe = BilinearUpsampling(upsampling=(4, 4), name='C5_cfe_up4', input_size=(16, 16))(C5_cfe)
+        C4_cfe = BilinearUpsampling(upsampling=(2, 2), name='C4_cfe_up2', input_size=(32, 32))(C4_cfe)
         C345 = Concatenate(name='C345_aspp_concat', axis=-1)([C3_cfe, C4_cfe, C5_cfe])
         if with_CA:
             C345 = ChannelWiseAttention(C345, name='C345_ChannelWiseAttention_withcpfe')
     C345 = Conv2D(64, (1, 1), padding='same', name='C345_conv')(C345)
     C345 = BN(C345, 'C345')
-    C345 = BilinearUpsampling(upsampling=(4, 4), name='C345_up4')(C345)
+    C345 = BilinearUpsampling(upsampling=(4, 4), name='C345_up4', input_size=(64, 64))(C345)
 
     if with_SA:
         SA = SpatialAttention(C345, 'spatial_attention')
-        C2 = BilinearUpsampling(upsampling=(2, 2), name='C2_up2')(C2)
+        C2 = BilinearUpsampling(upsampling=(2, 2), name='C2_up2', input_size=(128, 128))(C2)
         C12 = Concatenate(name='C12_concat', axis=-1)([C1, C2])
         C12 = Conv2D(64, (3, 3), padding='same', name='C12_conv')(C12)
         C12 = BN(C12, 'C12')

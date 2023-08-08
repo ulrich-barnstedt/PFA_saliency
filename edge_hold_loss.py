@@ -10,7 +10,7 @@ def _to_tensor(x, dtype):
 def logit(inputs):
     _epsilon = _to_tensor(epsilon(), inputs.dtype.base_dtype)
     inputs = tf.clip_by_value(inputs, _epsilon, 1 - _epsilon)
-    inputs = tf.log(inputs / (1 - inputs))
+    inputs = tf.math.log(inputs / (1 - inputs))
     return inputs
 
 

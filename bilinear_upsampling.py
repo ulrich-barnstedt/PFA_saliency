@@ -14,10 +14,11 @@ class BilinearUpsampling(Layer):
            output_size: used instead of upsampling arg if passed!
     """
 
-    def __init__(self, upsampling=(2, 2), output_size=None, data_format=None, **kwargs):
+    def __init__(self, upsampling=(2, 2), output_size=None, data_format=None, input_size=None, **kwargs):
 
         super(BilinearUpsampling, self).__init__(**kwargs)
 
+        self.input_size = input_size
         self.data_format = conv_utils.normalize_data_format(data_format)
         self.input_spec = InputSpec(ndim=4)
         if output_size:
@@ -43,12 +44,20 @@ class BilinearUpsampling(Layer):
                 width,
                 input_shape[3])
 
-    def call(self, inputs):
+    def call(self, inputs, **kwargs):
         if self.upsampling:
-            print(inputs)
+            # print(self.name, inputs.shape, self.input_size)
+
+            i1 = inputs.shape[1]
+            i2 = inputs.shape[2]
+
+            if i1 is None or i2 is None:
+                i1 = self.input_size[0]
+                i2 = self.input_size[1]
+
             return tf.compat.v1.image.resize(
                 inputs,
-                (int(inputs.shape[1] * self.upsampling[0]), int(inputs.shape[2] * self.upsampling[1])),
+                (int(i1 * self.upsampling[0]), int(i2 * self.upsampling[1])),
                 align_corners=True,
                 method=tf.compat.v1.image.ResizeMethod.BILINEAR
             )
