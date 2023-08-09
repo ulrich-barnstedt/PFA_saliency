@@ -1,9 +1,5 @@
-from keras import backend as K
-# from keras.engine import Layer
-# from keras.utils import conv_utils
-# from keras.engine import InputSpec
 from tensorflow.python.keras.utils import conv_utils
-from keras.layers import Layer, InputSpec
+from tensorflow.python.keras.layers import Layer, InputSpec
 import tensorflow as tf
 
 

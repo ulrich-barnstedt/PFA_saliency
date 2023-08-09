@@ -1,10 +1,6 @@
-import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-
-from keras import callbacks, optimizers
+from tensorflow.python.keras import callbacks, optimizers
 import tensorflow as tf
-import os
-from keras.layers import Input
+from tensorflow.python.keras.layers import Input
 from model import VGG16
 from data import getTrainGenerator
 from utils import *
@@ -45,7 +41,7 @@ if __name__ == '__main__':
     print(("model_weights", model_name))
 
     target_size = (256, 256)
-    batch_size = 15
+    batch_size = 8
     base_lr = 1e-2
     epochs = 50
 

@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 import os
-from keras.layers import Input
+from tensorflow.python.keras.layers import Input
 from model import VGG16
 import matplotlib.pyplot as plt
 
