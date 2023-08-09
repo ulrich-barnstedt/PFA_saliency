@@ -1,5 +1,5 @@
 from tensorflow.python.keras.utils import conv_utils
-from tensorflow.python.keras.layers import Layer, InputSpec
+from keras.layers import Layer, InputSpec
 import tensorflow as tf
 
 

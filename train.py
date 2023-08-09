@@ -1,6 +1,5 @@
-from tensorflow.python.keras import callbacks, optimizers
-import tensorflow as tf
-from tensorflow.python.keras.layers import Input
+from keras import callbacks, optimizers
+from keras.layers import Input
 from model import VGG16
 from data import getTrainGenerator
 from utils import *
@@ -41,7 +40,7 @@ if __name__ == '__main__':
     print(("model_weights", model_name))
 
     target_size = (256, 256)
-    batch_size = 8
+    batch_size = 8  # Adjust for VRAM
     base_lr = 1e-2
     epochs = 50
 

@@ -1,10 +1,9 @@
 import tensorflow as tf
-from tensorflow.python.keras.layers import *
-from bilinear_upsampling import BilinearUpsampling
-from tensorflow.python.keras import backend as K
+from keras.layers import *
+from keras import backend as K
 
 
-class BatchNorm(tf.keras.layers.BatchNormalization):
+class BatchNorm(BatchNormalization):
     def call(self, inputs, training=None):
         return super(self.__class__, self).call(inputs, training=True)
 
