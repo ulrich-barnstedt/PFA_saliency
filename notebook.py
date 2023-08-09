@@ -83,18 +83,21 @@ model.load_weights(model_name, by_name=True)
 
 for layer in model.layers:
     layer.trainable = False
-# %%
-image_path = 'image/2.jpg'
-img, shape = load_image(image_path)
-img = np.array(img, dtype=np.float32)
-sa = model.predict(img)
-sa = getres(sa, shape)
-plt.title('saliency')
-plt.subplot(131)
-plt.imshow(cv2.imread(image_path))
-plt.subplot(132)
-plt.imshow(sa, cmap='gray')
-plt.subplot(133)
-edge = laplace_edge(sa)
-plt.imshow(edge, cmap='gray')
-plt.show()
+
+#### Detection
+
+for file in os.listdir("image"):
+    image_path = 'image/' + file
+    img, shape = load_image(image_path)
+    img = np.array(img, dtype=np.float32)
+    sa = model.predict(img)
+    sa = getres(sa, shape)
+    plt.title('saliency')
+    plt.subplot(131)
+    plt.imshow(cv2.imread(image_path))
+    plt.subplot(132)
+    plt.imshow(sa, cmap='gray')
+    plt.subplot(133)
+    edge = laplace_edge(sa)
+    plt.imshow(edge, cmap='gray')
+    plt.show()
