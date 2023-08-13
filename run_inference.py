@@ -1,6 +1,8 @@
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
 import numpy as np
 import cv2
-import os
 from keras.layers import Input
 from model import VGG16
 import matplotlib.pyplot as plt
@@ -92,12 +94,14 @@ for file in os.listdir("image"):
     img = np.array(img, dtype=np.float32)
     sa = model.predict(img)
     sa = getres(sa, shape)
-    plt.title('saliency')
-    plt.subplot(131)
-    plt.imshow(cv2.imread(image_path))
-    plt.subplot(132)
-    plt.imshow(sa, cmap='gray')
-    plt.subplot(133)
+
+    fig, plots = plt.subplots(2, 2)
+    ((ax11, ax12), (ax21, ax22)) = plots
+
+    ax11.imshow(cv2.imread(image_path))
+    ax21.imshow(sa)
     edge = laplace_edge(sa)
-    plt.imshow(edge, cmap='gray')
-    plt.show()
+    ax22.imshow(edge)
+    ax12.imshow(sa, cmap="gray")
+
+    fig.show()

@@ -1,0 +1,5 @@
+tensorboard-logs
+model
+image
+image_inactive
+train_pair.txt
