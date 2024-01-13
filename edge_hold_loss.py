@@ -2,7 +2,7 @@ import tensorflow as tf
 from keras import backend as K
 from keras.backend import epsilon
 
-
+# TODO: ???
 def _to_tensor(x, dtype):
     return tf.convert_to_tensor(x, dtype=dtype)
 

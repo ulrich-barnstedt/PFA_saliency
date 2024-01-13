@@ -21,5 +21,6 @@ def rec(y_true, y_pred):
     return TP / S
 
 
+# TODO: same as edge_hold_loss.py ??
 def _to_tensor(x, dtype):
     return tf.convert_to_tensor(x, dtype=dtype)

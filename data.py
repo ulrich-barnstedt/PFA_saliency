@@ -44,6 +44,7 @@ def random_light(x):
     return np.clip(x, 0, 255)
 
 
+# TODO: verify all implemented
 def getTrainGenerator(file_path, target_size, batch_size, israndom=False):
     f = open(file_path, 'r')
     trainlist = f.readlines()

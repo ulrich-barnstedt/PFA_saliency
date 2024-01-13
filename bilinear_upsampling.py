@@ -2,7 +2,8 @@ from tensorflow.python.keras.utils import conv_utils
 from keras.layers import Layer, InputSpec
 import tensorflow as tf
 
-
+# obsolete / replace by tf.keras.layers.UpSampling2D with mode Bilinear
+# DONE
 class BilinearUpsampling(Layer):
     """Just a simple bilinear upsampling layer. Works only with TF.
        Args:
