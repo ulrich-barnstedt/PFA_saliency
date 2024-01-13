@@ -98,10 +98,12 @@ for file in os.listdir("image"):
     fig, plots = plt.subplots(2, 2)
     ((ax11, ax12), (ax21, ax22)) = plots
 
-    ax11.imshow(cv2.imread(image_path))
+    ax11.imshow(np.flip(cv2.imread(image_path), 2))
     ax21.imshow(sa)
     edge = laplace_edge(sa)
     ax22.imshow(edge)
     ax12.imshow(sa, cmap="gray")
 
     fig.show()
+
+plt.waitforbuttonpress()

@@ -18,11 +18,11 @@ class BilinearUpsampling(Layer):
         self.data_format = conv_utils.normalize_data_format(data_format)
         self.input_spec = InputSpec(ndim=4)
         if output_size:
-            self.output_size = conv_utils.normalize_tuple(
+            self.upsample_size = conv_utils.normalize_tuple(
                 output_size, 2, 'output_size')
             self.upsampling = None
         else:
-            self.output_size = None
+            self.upsample_size = None
             self.upsampling = conv_utils.normalize_tuple(
                 upsampling, 2, 'upsampling')
 
@@ -33,8 +33,8 @@ class BilinearUpsampling(Layer):
             width = self.upsampling[1] * \
                     input_shape[2] if input_shape[2] is not None else None
         else:
-            height = self.output_size[0]
-            width = self.output_size[1]
+            height = self.upsample_size[0]
+            width = self.upsample_size[1]
         return (input_shape[0],
                 height,
                 width,
@@ -60,14 +60,14 @@ class BilinearUpsampling(Layer):
         else:
             return tf.compat.v1.image.resize(
                 inputs,
-                (self.output_size[0], self.output_size[1]),
+                (self.upsample_size[0], self.upsample_size[1]),
                 align_corners=True,
                 method=tf.compat.v1.image.ResizeMethod.BILINEAR
             )
 
     def get_config(self):
         config = {'upsampling': self.upsampling,
-                  'output_size': self.output_size,
+                  'output_size': self.upsample_size,
                   'data_format': self.data_format}
         base_config = super(BilinearUpsampling, self).get_config()
         return dict(list(base_config.items()) + list(config.items()))

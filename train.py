@@ -74,6 +74,8 @@ if __name__ == '__main__':
         print((i, layer.name))
     model.load_weights(model_name, by_name=True)
 
+    tf.keras.utils.plot_model(model, show_shapes=True)
+
     tb = callbacks.TensorBoard(log_dir=tb_log)
     lr_decay = callbacks.LearningRateScheduler(schedule=lr_scheduler)
     es = callbacks.EarlyStopping(monitor='loss', patience=3, verbose=0, mode='auto')
